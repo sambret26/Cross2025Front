@@ -1,0 +1,59 @@
+.ranking-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.ranking-header h1 {
+  color: #00ff88;
+  font-size: 2rem;
+}
+
+.runners-table {
+  border-collapse: collapse;
+}
+
+.runners-table th,
+.runners-table td {
+  padding: 0.2rem;
+  text-align: center;
+}
+
+.runners-table th {
+  background-color: #333;
+  color: #00ff88;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.runners-table td {
+  font-size: 0.7rem;
+}
+
+.even-row {
+  background-color: #222;
+}
+
+.odd-row {
+  background-color: #2d2d2d;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading-spinner {
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 0.3rem solid #f3f3f3;
+  border-top: 0.3rem solid #00ff88;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
