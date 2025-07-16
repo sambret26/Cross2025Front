@@ -76,7 +76,7 @@ const Runner = () => {
                 <div className="result-line">
                     <div className="result-item">
                         <span className="label">Temps :</span>
-                        <span className="value">{runner.time.split('.')[0]}</span>
+                        <span className="value">{runner.time}</span>
                     </div>
                     <div className="result-item">
                         <span className="label">Class. général :</span>
