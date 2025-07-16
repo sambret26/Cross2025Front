@@ -8,6 +8,7 @@ import Runner from './components/Runner/Runner';
 import Home from './components/Home/Home'
 
 // Import services
+import { getCategories } from './service/categoryService';
 import { getRunners } from './service/runnerService';
 
 // Import styles
@@ -17,19 +18,32 @@ import './App.css';
 export const GlobalContext = createContext();
 
 function App() {
+  const [categories, setCategories] = useState([]);
   const [runners, setRunners] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchRunners() {
-      const runnersData = await getRunners();
-      setRunners(runnersData);
-      setLoading(false);
+    async function fetchData() {
+      try {
+        const [runnersData, categoriesData] = await Promise.all([
+          getRunners(),
+          getCategories(),
+        ]);
+        setRunners(runnersData);
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error("Erreur lors du chargement des données :", error);
+      } finally {
+        setLoading(false);
+      }
     }
-    fetchRunners();
+    fetchData();
   }, []);
 
-  const contextValue = useMemo(() => ({runners, loading}), [runners, loading]);
+  const contextValue = useMemo(() =>
+    ({runners, categories, loading}),
+    [runners, categories, loading]
+  );
 
   const getAppRouter = () => {
     return (

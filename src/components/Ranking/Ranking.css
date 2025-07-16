@@ -10,6 +10,7 @@
 
 .runners-table {
   border-collapse: collapse;
+  width: 100%;
 }
 
 .runners-table th,
@@ -56,4 +57,22 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Bouton de filtre */
+.filter-opener {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  color: white;
+  border: 0.1rem solid white;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  background-color: black;
+  transition: transform 0.2 ease;
+}
+
+.filter-opener:active {
+  transform: scale(1.05);
 }

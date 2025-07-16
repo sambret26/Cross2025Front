@@ -1,0 +1,34 @@
+/* Conteneur du filtre */
+.filter-container {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1e1e1e;
+  padding: 2rem;
+  width: 100%;
+  opacity: 0.9;
+  height: 100%;
+}
+
+.gender-filter-container {
+  display: flex;
+  padding: 2rem 0rem;
+}
+
+.filter-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.filter-button {
+  background-color: inherit;
+  color: #ffffff;
+  padding: 1rem 2rem;
+  width: 100%;
+  border: none;
+}
+
+h3 {
+  text-align: center;
+}
