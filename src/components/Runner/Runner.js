@@ -3,6 +3,9 @@ import React, { useContext } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { GlobalContext } from '../../App';
 
+// Import components
+import Loader from '../Loader/Loader';
+
 // Import styles
 import './Runner.css';
 
@@ -10,7 +13,7 @@ const Runner = () => {
 
     const { number } = useParams();
     const [searchParams] = useSearchParams();
-    const { runners } = useContext(GlobalContext);
+    const { runners, loading } = useContext(GlobalContext);
     const fromRanking = searchParams.get('fromRanking') === 'true';
 
     const runner = runners.find(runner => runner.bib_number === parseInt(number));
@@ -35,6 +38,12 @@ const Runner = () => {
             default:
                 return sex;
         }
+    }
+
+    if (loading) {
+        return (
+            <Loader/>
+        )
     }
 
     if (!runner) {

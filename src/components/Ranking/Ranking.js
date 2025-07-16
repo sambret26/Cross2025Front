@@ -5,6 +5,7 @@ import { GlobalContext } from '../../App';
 
 // Import components
 import Filter from '../Filter/Filter';
+import Loader from '../Loader/Loader'
 
 // Import styles
 import './Ranking.css';
@@ -25,11 +26,9 @@ const Ranking = () => {
   }
 
   if (loading) {
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-      </div>
-    );
+    return(
+      <Loader/>
+    )
   };
 
   return (
