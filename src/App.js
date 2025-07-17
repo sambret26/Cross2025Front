@@ -3,6 +3,7 @@ import React, { useState, useEffect, createContext, useMemo } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 // Import components
+import Register from './components/Register/Register'
 import Ranking from './components/Ranking/Ranking';
 import Runner from './components/Runner/Runner';
 import Home from './components/Home/Home'
@@ -50,6 +51,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/ranking" element={<Ranking />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/runner/:number" element={<Runner/>} />
       </Routes>
     );

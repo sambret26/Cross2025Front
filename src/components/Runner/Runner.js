@@ -85,22 +85,22 @@ const Runner = () => {
                 <div className="result-line">
                     <div className="result-item">
                         <span className="label">Temps :</span>
-                        <span className="value">{runner.time}</span>
+                        <span className="value">{runner.finish ? runner.time : "-"}</span>
                     </div>
                     <div className="result-item">
                         <span className="label">Class. général :</span>
-                        <span className="value">#{runner.ranking}</span>
+                        <span className="value">{runner.finish ? "#" + runner.ranking : "-"}</span>
                     </div>
                 </div>
                 
                 <div className="result-line">
                     <div className="result-item">
                         <span className="label">Class. catégorie :</span>
-                        <span className="value">#{runner.category_ranking}</span>
+                        <span className="value">{runner.finish ? "#" + runner.category_ranking : "-"}</span>
                     </div>
                     <div className="result-item">
                         <span className="label">Class. sexe :</span>
-                        <span className="value">#{runner.sex_ranking}</span>
+                        <span className="value">{runner.finish ? "#" + runner.sex_ranking : "-"}</span>
                     </div>
                 </div>
             </div>

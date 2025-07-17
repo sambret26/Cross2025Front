@@ -8,9 +8,9 @@ import Filter from '../Filter/Filter';
 import Loader from '../Loader/Loader'
 
 // Import styles
-import './Ranking.css';
+import '../Ranking/Ranking.css'
 
-const Ranking = () => {
+const Register = () => {
 
   const navigate = useNavigate();
   const { runners, loading } = useContext(GlobalContext);
@@ -45,29 +45,27 @@ const Ranking = () => {
         {filterCategory.label}
       </button>
       <header className="ranking-header">
-        <h1>Classement</h1>
+        <h1>Inscrits</h1>
       </header>
       <main className="runners-list">
         <table className="runners-table">
           <thead>
             <tr>
-              {!filterCategory.sex && <th>Gén.</th>}
-              {filterCategory.sex && <th>Class.</th>}
               <th>Dos.</th>
               <th>Nom</th>
-              {!filterCategory.sex && <th>Sexe</th>}
-              {filterCategory.sex && <th>Gén.</th>}
-              {!filterCategory.category && <th>Cat.</th>}
-              <th>Temps</th>
+              <th>Sexe</th>
+              <th>Cat.</th>
             </tr>
           </thead>
           <tbody>
             {runners
               ?.filter(runner => {
-                if (!runner.finish) return false;
                 if (filterCategory.category && runner.category !== filterCategory.category) return false;
                 if (filterCategory.sex && runner.sex !== filterCategory.sex) return false;
                 return true;
+              })
+              .sort((a, b) => {
+                return a.bib_number - b.bib_number;
               })
               .map((runner, filteredIndex) => (
               <tr
@@ -75,19 +73,15 @@ const Ranking = () => {
                 className={filteredIndex % 2 === 0 ? 'even-row' : 'odd-row'}
                 onClick={() => handleRunnerClick(runner.bib_number)}
               >
-                {!filterCategory.sex && <td>{runner.ranking}</td>}
-                {filterCategory.sex && <td>{filteredIndex + 1}</td>}
                 <td>{runner.bib_number}</td>
                 <td>{runner.name}</td>
-                {!filterCategory.sex && <td>{runner.sex} ({runner.sex_ranking})</td>}
-                {filterCategory.sex && <td>{runner.ranking}</td>}
-                {!filterCategory.category && <td>{runner.category} ({runner.category_ranking})</td>}
-                <td>{runner.time}</td>
+                <td>{runner.sex}</td>
+                <td>{runner.category}</td>
               </tr>
             ))}
             {!runners?.length && (
               <tr>
-                <td colSpan="6">Aucun résultat</td>
+                <td colSpan="4">Aucun résultat</td>
               </tr>
             )}
           </tbody>
@@ -97,4 +91,4 @@ const Ranking = () => {
   )
 };
 
-export default Ranking;
+export default Register;
