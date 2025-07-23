@@ -8,7 +8,8 @@ import Filter from '../Filter/Filter';
 import Loader from '../Loader/Loader'
 
 // Import styles
-import '../Ranking/Ranking.css'
+import '../Ranking/Ranking.css';
+import './Register.css';
 
 const Register = () => {
 
@@ -23,6 +24,17 @@ const Register = () => {
 
   const changeFilterOpen = () => {
     setFilterOpen(!filterOpen);
+  }
+
+  const getClassName = (filteredIndex, runner) => {
+    let className = filteredIndex % 2 === 0 ? 'even-row' : 'odd-row';
+    if (runner.finish) {
+      className += ' finished-row';
+    }
+    if (runner.out) {
+      className += ' out-row';
+    }
+    return className;
   }
 
   if (loading) {
@@ -70,7 +82,7 @@ const Register = () => {
               .map((runner, filteredIndex) => (
               <tr
                 key={runner.id}
-                className={filteredIndex % 2 === 0 ? 'even-row' : 'odd-row'}
+                className={getClassName(filteredIndex, runner)}
                 onClick={() => handleRunnerClick(runner.bib_number)}
               >
                 <td>{runner.bib_number}</td>
