@@ -1,5 +1,5 @@
 // Import libraries
-import React, { useState, useEffect, createContext, useMemo } from 'react';
+import React, { useState, useEffect, createContext, useMemo, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 // Import components
@@ -25,16 +25,16 @@ function App() {
   const [runners, setRunners] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       const categoriesData = await getCategories();
       setCategories(categoriesData);
     } catch (error) {
       console.error("Erreur lors du chargement des catégories :", error);
     }
-  };
+  }, []);
 
-  const fetchRunners = async () => {
+  const fetchRunners = useCallback(async () => {
     try {
       const runnersData = await getRunners();
       setRunners(runnersData);
@@ -43,19 +43,32 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchCategories();
     fetchRunners();
     const intervalId = setInterval(fetchRunners, 10000);
     return () => clearInterval(intervalId);
-  }, []);
+  }, [fetchCategories, fetchRunners]);
 
-  const contextValue = useMemo(() =>
-    ({runners, categories, loading}),
-    [runners, categories, loading]
-  );
+  const refreshData = useCallback(async () => {
+    try {
+      setLoading(true);
+      await Promise.all([fetchRunners(), fetchCategories()]);
+    } catch (error) {
+      console.error("Erreur lors du rafraîchissement des données :", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchRunners, fetchCategories]);
+
+  const contextValue = useMemo(() => ({
+    runners,
+    categories,
+    loading,
+    refreshData
+  }), [runners, categories, loading, refreshData]);
 
   const getAppRouter = () => {
     return (

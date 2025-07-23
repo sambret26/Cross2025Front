@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 // Import components
 import InputModal from '../Modal/InputModal';
 
+// Import images
+import logo from "../../images/logo.png"
+
 // Import styles
 import './Home.css';
 
@@ -35,6 +38,9 @@ const Home = () => {
                     <button className="nav-button" onClick={handleOpenModal}>
                         Mon résultat
                     </button>
+                    <div className="home-logo-container">
+                        <img src={logo} alt="Logo" className="home-logo"/>
+                    </div>
                 </div>
             </div>
 

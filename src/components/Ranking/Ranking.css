@@ -1,10 +1,48 @@
+/* Layout en grille pour le header */
 .ranking-header {
-  text-align: center;
+  display: grid;
+  grid-template-columns: 3rem 1fr 3rem;
+  align-items: center;
+  justify-items: center;
   margin-bottom: 1rem;
+  width: 100%;
+  padding: 0 1rem;
 }
 
 .ranking-header h1 {
   color: #00ff88;
+  font-size: 2rem;
+  margin: 0;
+  white-space: nowrap;
+  grid-column: 2;
+  justify-self: center;
+}
+
+.refresh-button {
+  background: none;
+  border: none;
+  color: #00ff88;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+  justify-self: end;
+  grid-column: 3;
+}
+
+.refresh-button:hover {
+  color: #ffffff;
+  transform: rotate(180deg);
+}
+
+.refresh-button:active {
+  transform: rotate(180deg) scale(0.95);
+}
+
+.refresh-icon {
   font-size: 2rem;
 }
 
@@ -48,4 +86,14 @@
 
 .filter-opener:active {
   transform: scale(1.05);
+}
+
+.ranking-logo {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 0.1rem solid #00ff88;
+  justify-self: start;
+  grid-column: 1;
+  flex-shrink: 0;
 }

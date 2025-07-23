@@ -2,10 +2,14 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { GlobalContext } from '../../App';
+import { FiRefreshCw } from 'react-icons/fi';
 
 // Import components
 import Filter from '../Filter/Filter';
 import Loader from '../Loader/Loader'
+
+// Import image
+import logo from '../../images/logo.png';
 
 // Import styles
 import './Ranking.css';
@@ -13,7 +17,7 @@ import './Ranking.css';
 const Ranking = () => {
 
   const navigate = useNavigate();
-  const { runners, loading } = useContext(GlobalContext);
+  const { runners, loading, refreshData } = useContext(GlobalContext);
   const [filterCategory, setFilterCategory] = useState({"label": "Général", "category": null, "sex": null});
   const [filterOpen, setFilterOpen] = useState(null);
 
@@ -45,7 +49,16 @@ const Ranking = () => {
         {filterCategory.label}
       </button>
       <header className="ranking-header">
+        <img src={logo} alt="Logo" className="ranking-logo"/>
         <h1>Classement</h1>
+        <button
+          className="refresh-button"
+          onClick={refreshData}
+          aria-label="Rafraîchir les données"
+          title="Rafraîchir les données"
+        >
+          <FiRefreshCw className="refresh-icon" />
+        </button>
       </header>
       <main className="runners-list">
         <table className="runners-table">
