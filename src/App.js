@@ -3,6 +3,7 @@ import React, { useState, useEffect, createContext, useMemo } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 // Import components
+import DesktopRanking from './components/DesktopRanking/DesktopRanking';
 import Register from './components/Register/Register'
 import Ranking from './components/Ranking/Ranking';
 import Runner from './components/Runner/Runner';
@@ -24,22 +25,31 @@ function App() {
   const [runners, setRunners] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const [runnersData, categoriesData] = await Promise.all([
-          getRunners(),
-          getCategories(),
-        ]);
-        setRunners(runnersData);
-        setCategories(categoriesData);
-      } catch (error) {
-        console.error("Erreur lors du chargement des données :", error);
-      } finally {
-        setLoading(false);
-      }
+  const fetchCategories = async () => {
+    try {
+      const categoriesData = await getCategories();
+      setCategories(categoriesData);
+    } catch (error) {
+      console.error("Erreur lors du chargement des catégories :", error);
     }
-    fetchData();
+  };
+
+  const fetchRunners = async () => {
+    try {
+      const runnersData = await getRunners();
+      setRunners(runnersData);
+    } catch (error) {
+      console.error("Erreur lors du chargement des données :", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+    fetchRunners();
+    const intervalId = setInterval(fetchRunners, 10000);
+    return () => clearInterval(intervalId);
   }, []);
 
   const contextValue = useMemo(() =>
@@ -55,6 +65,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/runner/:number" element={<Runner/>} />
         <Route path="/rewards" element={<Reward />} />
+        <Route path="/desktop-ranking" element={<DesktopRanking />} />
       </Routes>
     );
   }

@@ -16,16 +16,19 @@ const Reward = () => {
   const { runners, loading } = useContext(GlobalContext);
   const [rewards, setRewards] = useState([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const rewardsData = await getRewards();
-        setRewards(rewardsData);
-      } catch (error) {
-        console.error("Erreur lors du chargement des données :", error);
-      }
+  const fetchData = async () => {
+    try {
+      const rewardsData = await getRewards();
+      setRewards(rewardsData);
+    } catch (error) {
+      console.error("Erreur lors du chargement des données :", error);
     }
+  }
+
+  useEffect(() => {
     fetchData();
+    const intervalId = setInterval(fetchData, 10000);
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleRunnerClick = (bib_number) => {
