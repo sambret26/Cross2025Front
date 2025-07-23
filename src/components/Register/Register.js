@@ -81,7 +81,7 @@ const Register = () => {
             ))}
             {!runners?.length && (
               <tr>
-                <td colSpan="4">Aucun résultat</td>
+                <td colSpan="4">Aucun coureur n'est inscrit à l'épreuve</td>
               </tr>
             )}
           </tbody>

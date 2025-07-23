@@ -87,7 +87,7 @@ const Ranking = () => {
             ))}
             {!runners?.length && (
               <tr>
-                <td colSpan="6">Aucun résultat</td>
+                <td colSpan="6">Aucun coureur n'a franchit la ligne d'arrivée</td>
               </tr>
             )}
           </tbody>
