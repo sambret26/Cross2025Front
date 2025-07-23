@@ -15,3 +15,16 @@ export async function getCategories() {
         return [];
     }
 }
+
+export async function getRewards() {
+    try {
+        const response = await fetch(`${CATEGORIES_API_URL}/rewards`);
+        if (!response.ok) {
+            throw new Error(`Erreur lors de la récupération des récompensés: ${response.status}`);
+        }
+        return await response.json()
+    } catch (error) {
+        console.error(`Erreur lors de la récupération des récompensés: ${error}`);
+        return [];
+    }
+}

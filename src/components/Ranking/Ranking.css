@@ -11,6 +11,8 @@
 .runners-table {
   border-collapse: collapse;
   width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .runners-table th,
@@ -28,14 +30,6 @@
 
 .runners-table td {
   font-size: 0.7rem;
-}
-
-.even-row {
-  background-color: #222;
-}
-
-.odd-row {
-  background-color: #2d2d2d;
 }
 
 /* Bouton de filtre */

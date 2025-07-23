@@ -1,0 +1,38 @@
+.reward-header {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .reward-header h1 {
+    color: #00ff88;
+    font-size: 2rem;
+  }
+  
+  .reward-table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .reward-table th,
+  .reward-table td {
+    padding: 0.2rem;
+    text-align: center;
+  }
+  
+  .reward-table th {
+    background-color: #333;
+    color: #00ff88;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+  
+  .reward-table td {
+    font-size: 0.7rem;
+  }
+
+  .reward-list-footer {
+    text-align: center;
+    margin-top: 1rem;
+  }

@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import Register from './components/Register/Register'
 import Ranking from './components/Ranking/Ranking';
 import Runner from './components/Runner/Runner';
+import Reward from './components/Reward/Reward';
 import Home from './components/Home/Home'
 
 // Import services
@@ -53,6 +54,7 @@ function App() {
         <Route path="/ranking" element={<Ranking />} />
         <Route path="/register" element={<Register />} />
         <Route path="/runner/:number" element={<Runner/>} />
+        <Route path="/rewards" element={<Reward />} />
       </Routes>
     );
   }

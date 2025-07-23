@@ -26,3 +26,31 @@ input[type=number]::-webkit-outer-spin-button {
 input[type=number] {
     -moz-appearance: textfield;
 }
+
+.even-row {
+  background-color: #222;
+}
+
+.odd-row {
+  background-color: #2d2d2d;
+}
+
+
+/* Desktop */
+.table-header-label {
+  display: inline;
+}
+
+.table-header-short {
+  display: none;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .table-header-label {
+      display: none;
+  }
+  .table-header-short {
+      display: inline;
+  }
+}

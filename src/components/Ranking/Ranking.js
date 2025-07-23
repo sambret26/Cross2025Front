@@ -51,13 +51,36 @@ const Ranking = () => {
         <table className="runners-table">
           <thead>
             <tr>
-              {!filterCategory.sex && <th>Gén.</th>}
-              {filterCategory.sex && <th>Class.</th>}
-              <th>Dos.</th>
+              {!filterCategory.sex &&
+                <th>
+                  <span className="table-header-label">Général</span>
+                  <span className="table-header-short">Gén.</span>
+                </th>
+              }
+              {filterCategory.sex &&
+                <th>
+                  <span className="table-header-label">Classement</span>
+                  <span className="table-header-short">Cl.</span>
+                </th>
+              }
+              <th>
+                <span className="table-header-label">Dossard</span>
+                <span className="table-header-short">N°</span>
+              </th>
               <th>Nom</th>
               {!filterCategory.sex && <th>Sexe</th>}
-              {filterCategory.sex && <th>Gén.</th>}
-              {!filterCategory.category && <th>Cat.</th>}
+              {filterCategory.sex &&
+                <th>
+                  <span className="table-header-label">Général</span>
+                  <span className="table-header-short">Gén.</span>
+                </th>
+              }
+              {!filterCategory.category &&
+                <th>
+                  <span className="table-header-label">Catégorie</span>
+                  <span className="table-header-short">Cat.</span>
+                </th>
+              }
               <th>Temps</th>
             </tr>
           </thead>
