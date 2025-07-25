@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 // Import components
 import InputModal from '../Modal/InputModal';
+import CommentModal from '../Modal/CommentModal';
 
 // Import images
 import logo from "../../images/logo.png"
@@ -13,15 +14,25 @@ import './Home.css';
 
 const Home = () => {
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isInputModalOpen, setIsInputModalOpen] = useState(false);
+    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
 
-    const handleOpenModal = (e) => {
+    const handleOpenInputModal = (e) => {
         e.preventDefault();
-        setIsModalOpen(true);
+        setIsInputModalOpen(true);
     };
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
+    const handleCloseInputModal = () => {
+        setIsInputModalOpen(false);
+    };
+
+    const handleOpenCommentModal = (e) => {
+        e.preventDefault();
+        setIsCommentModalOpen(true);
+    };
+
+    const handleCloseCommentModal = () => {
+        setIsCommentModalOpen(false);
     };
     
     return (
@@ -35,16 +46,19 @@ const Home = () => {
                     <Link to="/ranking">
                         <button className="nav-button">Classement général</button>
                     </Link>
-                    <button className="nav-button" onClick={handleOpenModal}>
+                    <button className="nav-button" onClick={handleOpenInputModal}>
                         Mon résultat
                     </button>
                     <div className="home-logo-container">
                         <img src={logo} alt="Logo" className="home-logo"/>
                     </div>
                 </div>
+                <button className="comment-button" onClick={handleOpenCommentModal}>
+                    Laisser un commentaire à l'organisation
+                </button>
             </div>
-
-            {isModalOpen && <InputModal onClose={handleCloseModal}/>}
+            {isInputModalOpen && <InputModal onClose={handleCloseInputModal}/>}
+            {isCommentModalOpen && <CommentModal onClose={handleCloseCommentModal}/>}
         </div>
     );
 };

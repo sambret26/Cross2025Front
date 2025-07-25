@@ -5,7 +5,7 @@ import { GlobalContext } from '../../App'
 import PropTypes from 'prop-types';
 
 // Import styles
-import './InputModal.css';
+import './Modal.css';
 
 const InputModal = ({ onClose }) => {
 
