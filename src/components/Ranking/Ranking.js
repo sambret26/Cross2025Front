@@ -5,7 +5,7 @@ import { GlobalContext } from '../../App';
 import { FiRefreshCw } from 'react-icons/fi';
 
 // Import components
-import Filter from '../Filter/Filter';
+import Filter from '../Filter/CategoryFilter';
 import Loader from '../Loader/Loader'
 
 // Import image

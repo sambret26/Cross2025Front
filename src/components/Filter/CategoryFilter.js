@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 // Import styles
 import './Filter.css';
 
-const Filter = ({ setCategory, setFilterOpen }) => {
+const CategoryFilter = ({ setCategory, setFilterOpen }) => {
 
     const general_categories= [
         {"label" : "Général", "category" : null, "sex" : null},
@@ -73,9 +73,9 @@ const Filter = ({ setCategory, setFilterOpen }) => {
     );
 };
 
-Filter.propTypes = {
+CategoryFilter.propTypes = {
     setCategory: PropTypes.func.isRequired,
     setFilterOpen: PropTypes.func.isRequired
 }
 
-export default Filter;
+export default CategoryFilter;

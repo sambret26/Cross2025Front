@@ -4,7 +4,8 @@ import { useContext, useState } from 'react';
 import { GlobalContext } from '../../App';
 
 // Import components
-import Filter from '../Filter/Filter';
+import CategoryFilter from '../Filter/CategoryFilter';
+import StatusFilter from '../Filter/StatusFilter';
 import Loader from '../Loader/Loader'
 
 // Import styles
@@ -16,14 +17,28 @@ const Register = () => {
   const navigate = useNavigate();
   const { runners, loading } = useContext(GlobalContext);
   const [filterCategory, setFilterCategory] = useState({"label": "Général", "category": null, "sex": null});
-  const [filterOpen, setFilterOpen] = useState(null);
+  const [categoryFilterOpen, setCategoryFilterOpen] = useState(null);
+  const [filterStatus, setFilterStatus] = useState({"label": "Tous", "status": null});
+  const [statusFilterOpen, setStatusFilterOpen] = useState(null);
 
   const handleRunnerClick = (bib_number) => {
     navigate(`/runner/${bib_number}?fromRanking=true`);
   }
 
-  const changeFilterOpen = () => {
-    setFilterOpen(!filterOpen);
+  const changeCategoryFilterOpen = () => {
+    setCategoryFilterOpen(!categoryFilterOpen);
+  }
+
+  const changeStatusFilterOpen = () => {
+    setStatusFilterOpen(!statusFilterOpen);
+  }
+
+  const isNotValid = (status, runner) => {
+    console.log(status)
+    if (status === 2 && !runner.finish) return true;
+    if (status === -1 && !runner.out) return true;
+    if (status === 1 && (runner.finish || runner.out)) return true;
+    return false;
   }
 
   const getClassName = (filteredIndex, runner) => {
@@ -45,15 +60,26 @@ const Register = () => {
 
   return (
     <div>
-      {filterOpen && (
+      {statusFilterOpen && (
         <>
-          <Filter
-            setCategory={setFilterCategory}
-            setFilterOpen={setFilterOpen}
+          <StatusFilter
+            setStatus={setFilterStatus}
+            setFilterOpen={setStatusFilterOpen}
           />
         </>
       )}
-      <button className="filter-opener" onClick={changeFilterOpen}>
+      {categoryFilterOpen && (
+        <>
+          <CategoryFilter
+            setCategory={setFilterCategory}
+            setFilterOpen={setCategoryFilterOpen}
+          />
+        </>
+      )}
+      <button className="status-filter-opener" onClick={changeStatusFilterOpen}>
+        {filterStatus.label}
+      </button>
+      <button className="category-filter-opener" onClick={changeCategoryFilterOpen}>
         {filterCategory.label}
       </button>
       <header className="ranking-header">
@@ -74,6 +100,7 @@ const Register = () => {
               ?.filter(runner => {
                 if (filterCategory.category && runner.category !== filterCategory.category) return false;
                 if (filterCategory.sex && runner.sex !== filterCategory.sex) return false;
+                if (filterStatus.status && isNotValid(filterStatus.status, runner)) return false;
                 return true;
               })
               .sort((a, b) => {

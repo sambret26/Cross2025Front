@@ -71,7 +71,7 @@
 }
 
 /* Bouton de filtre */
-.filter-opener {
+.category-filter-opener {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
@@ -84,7 +84,24 @@
   transition: transform 0.2 ease;
 }
 
-.filter-opener:active {
+.category-filter-opener:active {
+  transform: scale(1.05);
+}
+
+.status-filter-opener {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  color: white;
+  border: 0.1rem solid #00ff88;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  background-color: black;
+  transition: transform 0.2 ease;
+}
+
+.status-filter-opener:active {
   transform: scale(1.05);
 }
 
