@@ -37,8 +37,7 @@ const Register = () => {
     console.log(status)
     if (status === 2 && !runner.finish) return true;
     if (status === -1 && !runner.out) return true;
-    if (status === 1 && (runner.finish || runner.out)) return true;
-    return false;
+    return !(status === 1 && (runner.finish || runner.out));
   }
 
   const getClassName = (filteredIndex, runner) => {
@@ -61,20 +60,16 @@ const Register = () => {
   return (
     <div>
       {statusFilterOpen && (
-        <>
-          <StatusFilter
-            setStatus={setFilterStatus}
-            setFilterOpen={setStatusFilterOpen}
-          />
-        </>
+        <StatusFilter
+          setStatus={setFilterStatus}
+          setFilterOpen={setStatusFilterOpen}
+        />
       )}
       {categoryFilterOpen && (
-        <>
-          <CategoryFilter
-            setCategory={setFilterCategory}
-            setFilterOpen={setCategoryFilterOpen}
-          />
-        </>
+        <CategoryFilter
+          setCategory={setFilterCategory}
+          setFilterOpen={setCategoryFilterOpen}
+        />
       )}
       <button className="status-filter-opener" onClick={changeStatusFilterOpen}>
         {filterStatus.label}
@@ -100,8 +95,7 @@ const Register = () => {
               ?.filter(runner => {
                 if (filterCategory.category && runner.category !== filterCategory.category) return false;
                 if (filterCategory.sex && runner.sex !== filterCategory.sex) return false;
-                if (filterStatus.status && isNotValid(filterStatus.status, runner)) return false;
-                return true;
+                return !(filterStatus.status && isNotValid(filterStatus.status, runner));
               })
               .sort((a, b) => {
                 return a.bib_number - b.bib_number;

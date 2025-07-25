@@ -38,12 +38,10 @@ const Ranking = () => {
   return (
     <div>
       {filterOpen && (
-        <>
-          <Filter
-            setCategory={setFilterCategory}
-            setFilterOpen={setFilterOpen}
-          />
-        </>
+        <Filter
+          setCategory={setFilterCategory}
+          setFilterOpen={setFilterOpen}
+        />
       )}
       <button className="filter-opener" onClick={changeFilterOpen}>
         {filterCategory.label}
@@ -102,8 +100,7 @@ const Ranking = () => {
               ?.filter(runner => {
                 if (!runner.finish) return false;
                 if (filterCategory.category && runner.category !== filterCategory.category) return false;
-                if (filterCategory.sex && runner.sex !== filterCategory.sex) return false;
-                return true;
+                return !(filterCategory.sex && runner.sex !== filterCategory.sex);
               })
               .map((runner, filteredIndex) => (
                 <tr

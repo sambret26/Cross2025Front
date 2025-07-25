@@ -33,7 +33,7 @@
   overflow-x: hidden;
   position: relative;
   scrollbar-width: none;
-  /* Firefox */
+  -ms-overflow-style: none;
 }
 
 .table-title {
@@ -89,15 +89,6 @@
   font-size: 0.7rem;
 }
 
-/* Masquer la barre de défilement */
 .table-wrapper::-webkit-scrollbar {
   display: none;
-  /* Chrome, Safari, Edge */
-}
-
-.table-wrapper {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
 }

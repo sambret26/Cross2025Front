@@ -21,9 +21,9 @@ const StatusFilter = ({ setStatus, setFilterOpen }) => {
 
   return (
     <div className="filter-container">
-      {status.map((status, index) => (
+      {status.map((status) => (
         <button
-          key={`status-${index}`}
+          key={`status-${status.label}`}
           className="filter-button"
           onClick={() => handleStatusChange(status)}
         >

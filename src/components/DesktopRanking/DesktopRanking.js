@@ -1,13 +1,17 @@
-// Import libraries
 import { useNavigate } from 'react-router-dom';
-import { useContext, useState, useEffect, useRef } from 'react';
+import { useContext, useState, useEffect, useRef, useCallback } from 'react';
 import { GlobalContext } from '../../App';
-
-// Import components
-import Loader from '../Loader/Loader'
-
-// Import styles
+import Loader from '../Loader/Loader';
 import './DesktopRanking.css';
+
+// Scroll configuration constants
+const SCROLL_CONFIG = {
+  ROW_HEIGHT: 50,           // Approximate row height in pixels
+  SCROLL_DELAY: 5000,        // Delay before starting scroll (5s)
+  PAUSE_DURATION: 5000,      // Pause duration at top and bottom (5s)
+  BASE_DURATION_PER_ROW: 1000, // Base duration per row (1s)
+  MIN_SCROLL_DURATION: 5000   // Minimum scroll duration (5s)
+};
 
 const DesktopRanking = () => {
 
@@ -26,99 +30,130 @@ const DesktopRanking = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  const updateFilterCategory = useCallback(() => {
+    setFilterCategory(currentCategory => {
+      const currentIndex = categories.findIndex(cat =>
+        cat.category === currentCategory?.category &&
+        cat.sex === currentCategory?.sex
+      );
+      const nextIndex = (currentIndex + 1) % categories.length;
+      return categories[nextIndex];
+    });
+  }, [categories]);
+
   useEffect(() => {
     if (!categories || categories.length <= 1) return;
     setLoading(false);
     setFilterCategory(categories[0]);
 
     const interval = setInterval(() => {
-      setFilterCategory(currentCategory => {
-        const currentIndex = categories.findIndex(cat =>
-          cat.category === currentCategory?.category &&
-          cat.sex === currentCategory?.sex
-        );
-        const nextIndex = (currentIndex + 1) % categories.length;
-        return categories[nextIndex];
-      });
+      updateFilterCategory();
     }, 10000);
 
     return () => clearInterval(interval);
-  }, [categories]);
+  }, [categories, updateFilterCategory]);
 
-  useEffect(() => {
-    const table1 = table1Ref.current;
-    if (!table1) return;
+  // Custom hook for managing auto-scroll functionality
+  const useAutoScroll = (tableRef) => {
+    const animationRef = useRef(null);
+    const startTimeoutRef = useRef(null);
+    const isScrollingDownRef = useRef(true);
+    const scrollFunctionsRef = useRef({});
 
-    // Calculer le nombre de lignes visibles et totales
-    const rowHeight = 50; // Hauteur approximative d'une ligne en pixels
-    const visibleRows = Math.ceil(table1.clientHeight / rowHeight);
-    const totalRows = Math.ceil(table1.scrollHeight / rowHeight);
-    const hiddenRows = Math.max(0, totalRows - visibleRows);
+    // Calculate scroll duration based on table content
+    const calculateScrollDuration = useCallback((table) => {
+      if (!table) return { duration: 0, hasContentToScroll: false };
 
-    // Si pas de défilement nécessaire, on ne fait rien
-    if (hiddenRows <= 0) return;
+      const { ROW_HEIGHT, MIN_SCROLL_DURATION, BASE_DURATION_PER_ROW } = SCROLL_CONFIG;
+      const visibleRows = Math.ceil(table.clientHeight / ROW_HEIGHT);
+      const totalRows = Math.ceil(table.scrollHeight / ROW_HEIGHT);
+      const hiddenRows = Math.max(0, totalRows - visibleRows);
 
-    // Durée de base par ligne (en millisecondes)
-    const baseDurationPerRow = 1000; // 1s par ligne
-    // Durée totale basée sur le nombre de lignes à défiler
-    const scrollDuration = Math.max(5000, hiddenRows * baseDurationPerRow); // Minimum 5 secondes
-    const pauseDuration = 5000; // 5 secondes de pause en haut
+      return {
+        duration: Math.max(MIN_SCROLL_DURATION, hiddenRows * BASE_DURATION_PER_ROW),
+        hasContentToScroll: hiddenRows > 0
+      };
+    }, []);
 
-    let animationId;
-    let startTime;
-    let isScrollingDown = true;
+    // Initialize scroll functions once
+    useEffect(() => {
+      // Reset scroll to top and prepare for next scroll down
+      const resetScroll = (table) => {
+        if (!table) return;
 
-    const scrollStep = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const elapsed = timestamp - startTime;
+        table.scrollTo({ top: 0, behavior: 'instant' });
 
-      if (isScrollingDown) {
-        const scrollHeight = table1.scrollHeight - table1.clientHeight;
+        startTimeoutRef.current = setTimeout(() => {
+          const { duration } = calculateScrollDuration(table);
+          isScrollingDownRef.current = true;
+          scrollFunctionsRef.current.scrollDown(table, duration);
+        }, SCROLL_CONFIG.PAUSE_DURATION);
+      };
 
-        if (scrollHeight > 0) {
-          const progress = Math.min(elapsed / scrollDuration, 1);
-          const scrollPosition = progress * scrollHeight;
+      // Handle the scroll down animation
+      const scrollDown = (table, duration) => {
+        if (!table) return;
 
-          table1.scrollTop = scrollPosition;
+        const startPos = table.scrollTop;
+        const distance = table.scrollHeight - table.clientHeight - startPos;
+        const startTime = performance.now();
+
+        const step = (timestamp) => {
+          const elapsed = timestamp - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+
+          table.scrollTop = startPos + (distance * progress);
 
           if (progress < 1) {
-            animationId = requestAnimationFrame(scrollStep);
+            animationRef.current = requestAnimationFrame(step);
           } else {
-            isScrollingDown = false;
-            startTime = timestamp;
-
-            // Pause en bas du tableau
-            setTimeout(() => {
-
-              table1.scrollTo({ top: 0, behavior: 'instant' });
-
-              // Pause en haut du tableau avant de redescendre
-              setTimeout(() => {
-                startTime = undefined;
-                isScrollingDown = true;
-                animationId = requestAnimationFrame(scrollStep);
-              }, pauseDuration);
-            }, pauseDuration);
+            isScrollingDownRef.current = false;
+            scrollFunctionsRef.current.resetScroll(table);
           }
-        }
-      }
-    };
+        };
 
-    // Démarrer après un court délai
-    const startTimeout = setTimeout(() => {
-      if (hiddenRows > 0) {
-        animationId = requestAnimationFrame(scrollStep);
-      }
-    }, 5000);
+        animationRef.current = requestAnimationFrame(step);
+      };
 
-    // Nettoyage
-    return () => {
-      clearTimeout(startTimeout);
-      if (animationId) {
-        cancelAnimationFrame(animationId);
+      // Store functions in ref to avoid dependency issues
+      scrollFunctionsRef.current = { resetScroll, scrollDown };
+    }, [calculateScrollDuration]);
+
+    // Start the auto-scroll process
+    const startAutoScroll = useCallback(() => {
+      const table = tableRef.current;
+      if (!table) return;
+
+      const { duration, hasContentToScroll } = calculateScrollDuration(table);
+      if (!hasContentToScroll) return;
+
+      startTimeoutRef.current = setTimeout(() => {
+        scrollFunctionsRef.current.scrollDown(table, duration);
+      }, SCROLL_CONFIG.SCROLL_DELAY);
+    }, [calculateScrollDuration, tableRef]);
+
+    // Clean up all timeouts and animations
+    const cleanup = useCallback(() => {
+      if (startTimeoutRef.current) {
+        clearTimeout(startTimeoutRef.current);
       }
-    };
-  }, [fiveSecondsPasts]);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    }, []);
+
+    return { startAutoScroll, cleanup };
+  };
+
+  // Initialize auto-scroll
+  const { startAutoScroll, cleanup } = useAutoScroll(table1Ref);
+
+  useEffect(() => {
+    if (fiveSecondsPasts) {
+      startAutoScroll();
+    }
+    return cleanup;
+  }, [fiveSecondsPasts, startAutoScroll, cleanup]);
 
   const handleRunnerClick = (bib_number) => {
     navigate(`/runner/${bib_number}?fromRanking=true`);
@@ -154,10 +189,7 @@ const DesktopRanking = () => {
             <table className="desktop-rankings-table-1">
               <tbody>
                 {runners
-                  ?.filter(runner => {
-                    if (!runner.finish) return false;
-                    return true;
-                  })
+                  ?.filter(runner => runner.finish)
                   .map((runner, filteredIndex) => (
                     <tr
                       key={runner.id}
@@ -199,8 +231,7 @@ const DesktopRanking = () => {
                   ?.filter(runner => {
                     if (!runner.finish) return false;
                     if (filterCategory.category && runner.category !== filterCategory.category) return false;
-                    if (filterCategory.sex && runner.sex !== filterCategory.sex) return false;
-                    return true;
+                    return !(filterCategory.sex && runner.sex !== filterCategory.sex);
                   })
                   .map((runner, filteredIndex) => (
                     <tr

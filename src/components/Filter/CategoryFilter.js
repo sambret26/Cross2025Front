@@ -40,9 +40,9 @@ const CategoryFilter = ({ setCategory, setFilterOpen }) => {
           >
             {general_categories[1].label}
           </button>
-          {women_categories.map((category, index) => (
+          {women_categories.map((category) => (
             <button
-              key={`women-${index}`}
+              key={`women-${category.label}`}
               className="filter-button"
               onClick={() => handleCategorieChange(category)}
             >
@@ -58,9 +58,9 @@ const CategoryFilter = ({ setCategory, setFilterOpen }) => {
           >
             {general_categories[2].label}
           </button>
-          {men_categories.map((category, index) => (
+          {men_categories.map((category) => (
             <button
-              key={`men-${index}`}
+              key={`men-${category.label}`}
               className="filter-button"
               onClick={() => handleCategorieChange(category)}
             >
