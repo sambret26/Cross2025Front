@@ -8,74 +8,74 @@ import './Filter.css';
 
 const CategoryFilter = ({ setCategory, setFilterOpen }) => {
 
-    const general_categories= [
-        {"label" : "Général", "category" : null, "sex" : null},
-        {"label" : "Général F", "category" : null, "sex" : "F"},
-        {"label" : "Général H", "category" : null, "sex" : "M"}
-    ]
+  const general_categories = [
+    { "label": "Général", "category": null, "sex": null },
+    { "label": "Général F", "category": null, "sex": "F" },
+    { "label": "Général H", "category": null, "sex": "M" }
+  ]
 
-    const { categories } = useContext(GlobalContext);
-    const men_categories = categories.filter(category => category.sex === "M");
-    const women_categories = categories.filter(category => category.sex === "F");
+  const { categories } = useContext(GlobalContext);
+  const men_categories = categories.filter(category => category.sex === "M");
+  const women_categories = categories.filter(category => category.sex === "F");
 
-    const handleCategorieChange = (category) => {
-        setCategory(category);
-        setFilterOpen(false);
-    }
+  const handleCategorieChange = (category) => {
+    setCategory(category);
+    setFilterOpen(false);
+  }
 
-    return (
-        <div className="filter-container">
-            <button 
-                className="filter-button" 
-                onClick={() => handleCategorieChange(general_categories[0])}
+  return (
+    <div className="filter-container">
+      <button
+        className="filter-button"
+        onClick={() => handleCategorieChange(general_categories[0])}
+      >
+        {general_categories[0].label}
+      </button>
+      <div className="gender-filter-container">
+        <div className="filter-column">
+          <h3>♀</h3>
+          <button
+            className="filter-button"
+            onClick={() => handleCategorieChange(general_categories[1])}
+          >
+            {general_categories[1].label}
+          </button>
+          {women_categories.map((category, index) => (
+            <button
+              key={`women-${index}`}
+              className="filter-button"
+              onClick={() => handleCategorieChange(category)}
             >
-                {general_categories[0].label}
+              {category.label}
             </button>
-            <div className="gender-filter-container">
-                <div className="filter-column">
-                    <h3>♀</h3>
-                    <button 
-                        className="filter-button"
-                        onClick={() => handleCategorieChange(general_categories[1])}
-                    >
-                        {general_categories[1].label}
-                    </button>
-                    {women_categories.map((category, index) => (
-                        <button 
-                            key={`women-${index}`}
-                            className="filter-button" 
-                            onClick={() => handleCategorieChange(category)}
-                        >
-                            {category.label}
-                        </button>
-                    ))}
-                </div>
-                <div className="filter-column">
-                    <h3>♂</h3>
-                    <button
-                        className="filter-button"
-                        onClick={() => handleCategorieChange(general_categories[2])}
-                    >
-                        {general_categories[2].label}
-                    </button>
-                    {men_categories.map((category, index) => (
-                        <button 
-                            key={`men-${index}`}
-                            className="filter-button" 
-                            onClick={() => handleCategorieChange(category)}
-                        >
-                            {category.label}
-                        </button>
-                    ))}
-                </div>
-            </div>
+          ))}
         </div>
-    );
+        <div className="filter-column">
+          <h3>♂</h3>
+          <button
+            className="filter-button"
+            onClick={() => handleCategorieChange(general_categories[2])}
+          >
+            {general_categories[2].label}
+          </button>
+          {men_categories.map((category, index) => (
+            <button
+              key={`men-${index}`}
+              className="filter-button"
+              onClick={() => handleCategorieChange(category)}
+            >
+              {category.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 CategoryFilter.propTypes = {
-    setCategory: PropTypes.func.isRequired,
-    setFilterOpen: PropTypes.func.isRequired
+  setCategory: PropTypes.func.isRequired,
+  setFilterOpen: PropTypes.func.isRequired
 }
 
 export default CategoryFilter;

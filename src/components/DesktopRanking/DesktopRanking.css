@@ -1,99 +1,103 @@
 .desktop-ranking-header {
-    text-align: center;
-    margin-bottom: 1rem;
-  }
-  
-  .desktop-ranking-header h1 {
-    color: #00ff88;
-    font-size: 2rem;
-  }
+  text-align: center;
+  margin-bottom: 1rem;
+}
 
-  .desktop-rankings-list {
-    display: flex;
-    gap: 20px;
-    padding: 20px;
-    height: calc(100vh - 100px);
-    overflow: hidden;
-  }
-  
-  .table-container {
-    flex: 1;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    background: #1a1a1a;
-    border-radius: 8px;
-    padding: 10px;
-  }
-  
-  .table-wrapper {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    position: relative;
-    scrollbar-width: none; /* Firefox */
-  }
+.desktop-ranking-header h1 {
+  color: #00ff88;
+  font-size: 2rem;
+}
 
-  .table-title {
-    text-align: center;
-    color: #00ff88;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 4px;
-  }
-  
-  .desktop-rankings-table-1-header,
-  .desktop-rankings-table-1,
-  .desktop-rankings-table-2 {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #1a1a1a;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    position: relative;
-  }
+.desktop-rankings-list {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  height: calc(100vh - 100px);
+  overflow: hidden;
+}
 
-  .desktop-rankings-table-1-header {
-    border-radius: 8px 8px 0 0;
+.table-container {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.table-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.table-title {
+  text-align: center;
+  color: #00ff88;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.desktop-rankings-table-1-header,
+.desktop-rankings-table-1,
+.desktop-rankings-table-2 {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1a1a1a;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.desktop-rankings-table-1-header {
+  border-radius: 8px 8px 0 0;
 }
 
 .desktop-rankings-table-1,
 .table-wrapper {
-    border-radius: 0 0 8px 8px;
+  border-radius: 0 0 8px 8px;
 }
 
 .desktop-rankings-table-2 {
-    border-radius: 8px;
+  border-radius: 8px;
 }
-  
-  .desktop-rankings-table-1-header th,
-  .desktop-rankings-table-2 th,
-  .desktop-rankings-table-1 td,
-  .desktop-rankings-table-2 td {
-    padding: 0.5rem;
-    text-align: center;
-  }
-  
-  .desktop-rankings-table-1-header th,
-  .desktop-rankings-table-2 th {
-    background-color: #333;
-    color: #00ff88;
-    font-weight: 600;
-    font-size: 0.8rem;
-  }
-  
-  .desktop-rankings-table-1 td,
-  .desktop-rankings-table-2 td {
-    font-size: 0.7rem;
-  }
 
-  /* Masquer la barre de défilement */
-  .table-wrapper::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Edge */
-  }
-  
-  .table-wrapper {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
+.desktop-rankings-table-1-header th,
+.desktop-rankings-table-2 th,
+.desktop-rankings-table-1 td,
+.desktop-rankings-table-2 td {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.desktop-rankings-table-1-header th,
+.desktop-rankings-table-2 th {
+  background-color: #333;
+  color: #00ff88;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.desktop-rankings-table-1 td,
+.desktop-rankings-table-2 td {
+  font-size: 0.7rem;
+}
+
+/* Masquer la barre de défilement */
+.table-wrapper::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Edge */
+}
+
+.table-wrapper {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}

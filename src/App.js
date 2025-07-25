@@ -73,10 +73,10 @@ function App() {
   const getAppRouter = () => {
     return (
       <Routes>
-        <Route path="/" element={<Home/>} />
+        <Route path="/" element={<Home />} />
         <Route path="/ranking" element={<Ranking />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/runner/:number" element={<Runner/>} />
+        <Route path="/runner/:number" element={<Runner />} />
         <Route path="/rewards" element={<Reward />} />
         <Route path="/desktop-ranking" element={<DesktopRanking />} />
       </Routes>

@@ -18,7 +18,7 @@ const Ranking = () => {
 
   const navigate = useNavigate();
   const { runners, loading, refreshData } = useContext(GlobalContext);
-  const [filterCategory, setFilterCategory] = useState({"label": "Général", "category": null, "sex": null});
+  const [filterCategory, setFilterCategory] = useState({ "label": "Général", "category": null, "sex": null });
   const [filterOpen, setFilterOpen] = useState(null);
 
   const handleRunnerClick = (bib_number) => {
@@ -30,8 +30,8 @@ const Ranking = () => {
   }
 
   if (loading) {
-    return(
-      <Loader/>
+    return (
+      <Loader />
     )
   };
 
@@ -49,7 +49,7 @@ const Ranking = () => {
         {filterCategory.label}
       </button>
       <header className="ranking-header">
-        <img src={logo} alt="Logo" className="ranking-logo"/>
+        <img src={logo} alt="Logo" className="ranking-logo" />
         <h1>Classement</h1>
         <button
           className="refresh-button"
@@ -106,21 +106,21 @@ const Ranking = () => {
                 return true;
               })
               .map((runner, filteredIndex) => (
-              <tr
-                key={runner.id}
-                className={filteredIndex % 2 === 0 ? 'even-row' : 'odd-row'}
-                onClick={() => handleRunnerClick(runner.bib_number)}
-              >
-                {!filterCategory.sex && <td>{runner.ranking}</td>}
-                {filterCategory.sex && <td>{filteredIndex + 1}</td>}
-                <td>{runner.bib_number}</td>
-                <td>{runner.name}</td>
-                {!filterCategory.sex && <td>{runner.sex} ({runner.sex_ranking})</td>}
-                {filterCategory.sex && <td>{runner.ranking}</td>}
-                {!filterCategory.category && <td>{runner.category} ({runner.category_ranking})</td>}
-                <td>{runner.time}</td>
-              </tr>
-            ))}
+                <tr
+                  key={runner.id}
+                  className={filteredIndex % 2 === 0 ? 'even-row' : 'odd-row'}
+                  onClick={() => handleRunnerClick(runner.bib_number)}
+                >
+                  {!filterCategory.sex && <td>{runner.ranking}</td>}
+                  {filterCategory.sex && <td>{filteredIndex + 1}</td>}
+                  <td>{runner.bib_number}</td>
+                  <td>{runner.name}</td>
+                  {!filterCategory.sex && <td>{runner.sex} ({runner.sex_ranking})</td>}
+                  {filterCategory.sex && <td>{runner.ranking}</td>}
+                  {!filterCategory.category && <td>{runner.category} ({runner.category_ranking})</td>}
+                  <td>{runner.time}</td>
+                </tr>
+              ))}
             {!runners?.length && (
               <tr>
                 <td colSpan="6">Aucun coureur n'a franchit la ligne d'arrivée</td>

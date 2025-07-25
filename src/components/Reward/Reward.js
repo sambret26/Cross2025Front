@@ -43,8 +43,8 @@ const Reward = () => {
   }
 
   if (loading) {
-    return(
-      <Loader/>
+    return (
+      <Loader />
     )
   };
 
@@ -76,18 +76,18 @@ const Reward = () => {
           <tbody>
             {rewards
               ?.map((reward, filteredIndex) => (
-              <tr
-                key={reward.id}
-                className={filteredIndex % 2 === 0 ? 'even-row' : 'odd-row'}
-                onClick={() => handleRunnerClick(reward.bib_number)}
-              >
-                <td>{reward.category + " " + reward.sex}</td>
-                <td>{reward.ranking}</td>
-                <td>{getName(reward)}</td>
-                <td>{reward.bib_number}</td>
-                <td>{reward.time}</td>
-              </tr>
-            ))}
+                <tr
+                  key={reward.id}
+                  className={filteredIndex % 2 === 0 ? 'even-row' : 'odd-row'}
+                  onClick={() => handleRunnerClick(reward.bib_number)}
+                >
+                  <td>{reward.category + " " + reward.sex}</td>
+                  <td>{reward.ranking}</td>
+                  <td>{getName(reward)}</td>
+                  <td>{reward.bib_number}</td>
+                  <td>{reward.time}</td>
+                </tr>
+              ))}
             {!rewards?.length && (
               <tr>
                 <td colSpan="6">Aucun coureur n'a franchit la ligne d'arrivée</td>

@@ -16,9 +16,9 @@ const Register = () => {
 
   const navigate = useNavigate();
   const { runners, loading } = useContext(GlobalContext);
-  const [filterCategory, setFilterCategory] = useState({"label": "Général", "category": null, "sex": null});
+  const [filterCategory, setFilterCategory] = useState({ "label": "Général", "category": null, "sex": null });
   const [categoryFilterOpen, setCategoryFilterOpen] = useState(null);
-  const [filterStatus, setFilterStatus] = useState({"label": "Tous", "status": null});
+  const [filterStatus, setFilterStatus] = useState({ "label": "Tous", "status": null });
   const [statusFilterOpen, setStatusFilterOpen] = useState(null);
 
   const handleRunnerClick = (bib_number) => {
@@ -53,8 +53,8 @@ const Register = () => {
   }
 
   if (loading) {
-    return(
-      <Loader/>
+    return (
+      <Loader />
     )
   };
 
@@ -107,17 +107,17 @@ const Register = () => {
                 return a.bib_number - b.bib_number;
               })
               .map((runner, filteredIndex) => (
-              <tr
-                key={runner.id}
-                className={getClassName(filteredIndex, runner)}
-                onClick={() => handleRunnerClick(runner.bib_number)}
-              >
-                <td>{runner.bib_number}</td>
-                <td>{runner.name}</td>
-                <td>{runner.sex}</td>
-                <td>{runner.category}</td>
-              </tr>
-            ))}
+                <tr
+                  key={runner.id}
+                  className={getClassName(filteredIndex, runner)}
+                  onClick={() => handleRunnerClick(runner.bib_number)}
+                >
+                  <td>{runner.bib_number}</td>
+                  <td>{runner.name}</td>
+                  <td>{runner.sex}</td>
+                  <td>{runner.category}</td>
+                </tr>
+              ))}
             {!runners?.length && (
               <tr>
                 <td colSpan="4">Aucun coureur n'est inscrit à l'épreuve</td>
