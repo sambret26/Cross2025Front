@@ -1,7 +1,8 @@
 // Import libraries
 import React, { useContext } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { GlobalContext } from '../../App';
+import { FiArrowLeft } from 'react-icons/fi';
 
 // Import components
 import Loader from '../Loader/Loader';
@@ -15,6 +16,7 @@ const Runner = () => {
   const [searchParams] = useSearchParams();
   const { runners, loading } = useContext(GlobalContext);
   const fromRanking = searchParams.get('fromRanking') === 'true';
+  const navigate = useNavigate();
 
   const runner = runners.find(runner => runner.bib_number === parseInt(number));
 
@@ -56,7 +58,17 @@ const Runner = () => {
 
   return (
     <div className="runner-container">
-      <h2>{fromRanking ? 'Profil' : 'Mon profil'}</h2>
+      <header className="runner-header">
+        <button
+          className="runner-return-button"
+          onClick={() => navigate(fromRanking ? '/ranking' : '/')}
+          aria-label="Retour à l'accueil"
+          title="Retour à l'accueil"
+        >
+          <FiArrowLeft className="return-icon" />
+        </button>
+        <h2>{fromRanking ? 'Profil' : 'Mon profil'}</h2>
+      </header>
       <div className="result-grid">
         <div className="result-line">
           <div className="result-item">

@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { GlobalContext } from '../../App';
-import { FiRefreshCw } from 'react-icons/fi';
+import { FiRefreshCw, FiArrowLeft } from 'react-icons/fi';
 
 // Import components
 import Filter from '../Filter/CategoryFilter';
@@ -47,7 +47,14 @@ const Ranking = () => {
         {filterCategory.label}
       </button>
       <header className="ranking-header">
-        <img src={logo} alt="Logo" className="ranking-logo" />
+        <button
+          className="ranking-return-button"
+          onClick={() => navigate('/')}
+          aria-label="Retour à l'accueil"
+          title="Retour à l'accueil"
+        >
+          <FiArrowLeft className="return-icon" />
+        </button>
         <h1>Classement</h1>
         <button
           className="refresh-button"

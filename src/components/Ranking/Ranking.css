@@ -18,7 +18,8 @@
   justify-self: center;
 }
 
-.refresh-button {
+.refresh-button,
+.ranking-return-button {
   background: none;
   border: none;
   color: #00ff88;
@@ -29,20 +30,20 @@
   justify-content: center;
   transition: transform 0.3s ease, color 0.3s ease;
   cursor: pointer;
-  justify-self: end;
+}
+
+.refresh-button {
   grid-column: 3;
+  justify-self: end;
 }
 
-.refresh-button:hover {
-  color: #ffffff;
-  transform: rotate(180deg);
+.ranking-return-button {
+  grid-column: 1;
+  justify-self: start;
 }
 
-.refresh-button:active {
-  transform: rotate(180deg) scale(0.95);
-}
-
-.refresh-icon {
+.refresh-icon,
+.return-icon {
   font-size: 2rem;
 }
 
@@ -103,14 +104,4 @@
 
 .status-filter-opener:active {
   transform: scale(1.05);
-}
-
-.ranking-logo {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  border: 0.1rem solid #00ff88;
-  justify-self: start;
-  grid-column: 1;
-  flex-shrink: 0;
 }
