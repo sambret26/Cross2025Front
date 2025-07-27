@@ -26,18 +26,24 @@ const Register = () => {
   }
 
   const changeCategoryFilterOpen = () => {
+    if (!categoryFilterOpen) {
+      setStatusFilterOpen(false);
+    }
     setCategoryFilterOpen(!categoryFilterOpen);
   }
 
   const changeStatusFilterOpen = () => {
+    if (!statusFilterOpen) {
+      setCategoryFilterOpen(false);
+    }
     setStatusFilterOpen(!statusFilterOpen);
   }
 
-  const isNotValid = (status, runner) => {
-    console.log(status)
-    if (status === 2 && !runner.finish) return true;
-    if (status === -1 && !runner.out) return true;
-    return !(status === 1 && (runner.finish || runner.out));
+  const isValid = (status, runner) => {
+    if (!status) return true;
+    if (status === 2 && runner.finish) return true;
+    if (status === -1 && runner.out) return true;
+    return status === 1 && !runner.finish && !runner.out;
   }
 
   const getClassName = (filteredIndex, runner) => {
@@ -95,7 +101,7 @@ const Register = () => {
               ?.filter(runner => {
                 if (filterCategory.category && runner.category !== filterCategory.category) return false;
                 if (filterCategory.sex && runner.sex !== filterCategory.sex) return false;
-                return !(filterStatus.status && isNotValid(filterStatus.status, runner));
+                return isValid(filterStatus.status, runner);
               })
               .sort((a, b) => {
                 return a.bib_number - b.bib_number;

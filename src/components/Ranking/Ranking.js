@@ -43,7 +43,7 @@ const Ranking = () => {
           setFilterOpen={setFilterOpen}
         />
       )}
-      <button className="filter-opener" onClick={changeFilterOpen}>
+      <button className="category-filter-opener" onClick={changeFilterOpen}>
         {filterCategory.label}
       </button>
       <header className="ranking-header">
