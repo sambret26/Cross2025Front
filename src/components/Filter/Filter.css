@@ -24,7 +24,7 @@
 
 .filter-button {
   background-color: inherit;
-  color: #ffffff;
+  color: white;
   padding: 1rem 2rem;
   width: 100%;
   border: none;
@@ -32,4 +32,5 @@
 
 h3 {
   text-align: center;
+  color: white;
 }

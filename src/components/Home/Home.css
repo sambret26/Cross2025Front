@@ -35,6 +35,7 @@
 }
 
 .nav-button {
+  color: black;
   border: none;
   border-radius: 0.4rem;
   background-color: #00ff88;

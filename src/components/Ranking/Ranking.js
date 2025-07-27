@@ -6,10 +6,7 @@ import { FiRefreshCw, FiArrowLeft } from 'react-icons/fi';
 
 // Import components
 import Filter from '../Filter/CategoryFilter';
-import Loader from '../Loader/Loader'
-
-// Import image
-import logo from '../../images/logo.png';
+import Loader from '../Loader/Loader';
 
 // Import styles
 import './Ranking.css';
@@ -66,7 +63,7 @@ const Ranking = () => {
         </button>
       </header>
       <main className="runners-list">
-        <table className="runners-table">
+        <table className="runners-table white-text">
           <thead>
             <tr>
               {!filterCategory.sex &&

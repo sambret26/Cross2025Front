@@ -71,6 +71,10 @@
   font-size: 0.7rem;
 }
 
+.white-text {
+  color: white;
+}
+
 /* Bouton de filtre */
 .category-filter-opener {
   position: fixed;

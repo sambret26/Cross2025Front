@@ -30,9 +30,11 @@
 
 .reward-table td {
   font-size: 0.7rem;
+  color: white;
 }
 
 .reward-list-footer {
   text-align: center;
   margin-top: 1rem;
+  color: white;
 }

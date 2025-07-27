@@ -87,6 +87,7 @@
 .desktop-rankings-table-1 td,
 .desktop-rankings-table-2 td {
   font-size: 0.7rem;
+  color: white;
 }
 
 .table-wrapper::-webkit-scrollbar {
