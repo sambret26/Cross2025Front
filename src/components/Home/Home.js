@@ -1,5 +1,5 @@
 // Import libraries
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // Import components
@@ -34,6 +34,39 @@ const Home = () => {
   const handleCloseCommentModal = () => {
     setIsCommentModalOpen(false);
   };
+
+  useEffect(() => {
+    let unblock = null;
+
+    const handleBackButton = (event) => {
+      if (isInputModalOpen || isCommentModalOpen) {
+        event.preventDefault();
+        event.stopPropagation();
+        setIsCommentModalOpen(false);
+        setIsInputModalOpen(false);
+        return false;
+      }
+    };
+
+    // Gestion du retour navigateur
+    if (isInputModalOpen || isCommentModalOpen) {
+      unblock = window.history.pushState(null, '', window.location.href);
+      window.onpopstate = handleBackButton;
+    }
+
+    // Gestion du bouton physique retour (mobile)
+    document.addEventListener('backbutton', handleBackButton, true);
+
+    return () => {
+      if (unblock) {
+        window.history.go(1);
+        window.onpopstate = null;
+      }
+      document.removeEventListener('backbutton', handleBackButton, true);
+    };
+  }, [isInputModalOpen, isCommentModalOpen]);
+
+
 
   return (
     <div className="home-page">
