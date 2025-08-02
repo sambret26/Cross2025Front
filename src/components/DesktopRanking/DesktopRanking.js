@@ -168,7 +168,7 @@ const DesktopRanking = () => {
   return (
     <div>
       <header className="desktop-ranking-header">
-        <h1>Classements</h1>
+        <h1>Classements 15 Août 2025</h1>
       </header>
       <main className="desktop-rankings-list">
         <div className="table-container">
