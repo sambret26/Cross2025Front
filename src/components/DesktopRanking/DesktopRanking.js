@@ -156,7 +156,7 @@ const DesktopRanking = () => {
   }, [fiveSecondsPasts, startAutoScroll, cleanup]);
 
   const handleRunnerClick = (bib_number) => {
-    navigate(`/runner/${bib_number}?fromRanking=true`);
+    navigate(`/runner/${bib_number}?fromDesktopRanking=true`);
   }
 
   if (loading) {

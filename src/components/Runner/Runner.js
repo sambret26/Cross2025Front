@@ -16,6 +16,10 @@ const Runner = () => {
   const [searchParams] = useSearchParams();
   const { runners, loading } = useContext(GlobalContext);
   const fromRanking = searchParams.get('fromRanking') === 'true';
+  const fromDesktopRanking = searchParams.get('fromDesktopRanking') === 'true';
+  const fromRegister = searchParams.get('fromRegister') === 'true';
+  const fromRewards = searchParams.get('fromRewards') === 'true';
+  const fromClick = fromRanking || fromDesktopRanking || fromRegister || fromRewards;
   const navigate = useNavigate();
 
   const runner = runners.find(runner => runner.bib_number === parseInt(number));
@@ -42,6 +46,14 @@ const Runner = () => {
     }
   }
 
+  const getReturnUrl = () => {
+    if (fromRanking) return '/ranking';
+    if (fromDesktopRanking) return '/desktop-ranking';
+    if (fromRegister) return '/register';
+    if (fromRewards) return '/rewards';
+    return '/';
+  }
+
   if (loading) {
     return (
       <Loader />
@@ -61,13 +73,13 @@ const Runner = () => {
       <header className="runner-header">
         <button
           className="runner-return-button"
-          onClick={() => navigate(fromRanking ? '/ranking' : '/')}
+          onClick={() => navigate(getReturnUrl())}
           aria-label="Retour à l'accueil"
           title="Retour à l'accueil"
         >
           <FiArrowLeft className="return-icon" />
         </button>
-        <h2>{fromRanking ? 'Profil' : 'Mon profil'}</h2>
+        <h2>{fromClick ? 'Profil' : 'Mon profil'}</h2>
       </header>
       <div className="result-grid">
         <div className="result-line">
@@ -92,7 +104,7 @@ const Runner = () => {
           </div>
         </div>
       </div>
-      <h2>{fromRanking ? 'Performance' : 'Ma performance'}</h2>
+      <h2>{fromClick ? 'Performance' : 'Ma performance'}</h2>
       <div className="result-grid-last">
         <div className="result-line">
           <div className="result-item">

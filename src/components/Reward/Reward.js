@@ -32,7 +32,7 @@ const Reward = () => {
   }, []);
 
   const handleRunnerClick = (bib_number) => {
-    navigate(`/runner/${bib_number}?fromRanking=true`);
+    navigate(`/runner/${bib_number}?fromRewards=true`);
   }
 
   const getName = (runner) => {

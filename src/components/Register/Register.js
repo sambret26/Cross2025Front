@@ -22,7 +22,7 @@ const Register = () => {
   const [statusFilterOpen, setStatusFilterOpen] = useState(null);
 
   const handleRunnerClick = (bib_number) => {
-    navigate(`/runner/${bib_number}?fromRanking=true`);
+    navigate(`/runner/${bib_number}?fromRegister=true`);
   }
 
   const changeCategoryFilterOpen = () => {
