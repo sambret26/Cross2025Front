@@ -7,13 +7,16 @@ import { getRewards } from '../../service/categoryService';
 // Import components
 import Loader from '../Loader/Loader'
 
+// Import constants
+import { NO_RUNNER_NO_STARTED, NO_RUNNER_STARTED } from '../../Constants/constants';
+
 // Import styles
 import './Reward.css';
 
 const Reward = () => {
 
   const navigate = useNavigate();
-  const { runners, loading } = useContext(GlobalContext);
+  const { runners, started, loading } = useContext(GlobalContext);
   const [rewards, setRewards] = useState([]);
 
   const fetchData = async () => {
@@ -90,7 +93,9 @@ const Reward = () => {
               ))}
             {!rewards?.length && (
               <tr>
-                <td colSpan="6">Aucun coureur n'a franchit la ligne d'arrivée</td>
+                <td colSpan="6">
+                  {started ? NO_RUNNER_STARTED : NO_RUNNER_NO_STARTED}
+                </td>
               </tr>
             )}
           </tbody>

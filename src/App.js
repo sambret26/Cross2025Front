@@ -11,6 +11,7 @@ import Reward from './components/Reward/Reward';
 import Home from './components/Home/Home'
 
 // Import services
+import { getStarted } from './service/settingService';
 import { getCategories } from './service/categoryService';
 import { getRunners } from './service/runnerService';
 
@@ -23,7 +24,17 @@ export const GlobalContext = createContext();
 function App() {
   const [categories, setCategories] = useState([]);
   const [runners, setRunners] = useState([]);
+  const [started, setStarted] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const fetchStarted = useCallback(async () => {
+    try {
+      const started = await getStarted();
+      setStarted(started)
+    } catch (error) {
+      console.error("Erreur lors du chargement du démarrage de la course :", error);
+    }
+  }, []);
 
   const fetchCategories = useCallback(async () => {
     try {
@@ -38,12 +49,15 @@ function App() {
     try {
       const runnersData = await getRunners();
       setRunners(runnersData);
+      if (!(runnersData?.length)) {
+        fetchStarted();
+      }
     } catch (error) {
       console.error("Erreur lors du chargement des données :", error);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [fetchStarted]);
 
   useEffect(() => {
     fetchCategories();
@@ -66,9 +80,10 @@ function App() {
   const contextValue = useMemo(() => ({
     runners,
     categories,
+    started,
     loading,
     refreshData
-  }), [runners, categories, loading, refreshData]);
+  }), [runners, categories, started, loading, refreshData]);
 
   const getAppRouter = () => {
     return (

@@ -8,13 +8,16 @@ import { FiRefreshCw, FiArrowLeft } from 'react-icons/fi';
 import Filter from '../Filter/CategoryFilter';
 import Loader from '../Loader/Loader';
 
+// Import constants
+import { NO_RUNNER_NO_STARTED, NO_RUNNER_STARTED } from '../../Constants/constants';
+
 // Import styles
 import './Ranking.css';
 
 const Ranking = () => {
 
   const navigate = useNavigate();
-  const { runners, loading, refreshData } = useContext(GlobalContext);
+  const { runners, started, loading, refreshData } = useContext(GlobalContext);
   const [filterCategory, setFilterCategory] = useState({ "label": "Général", "category": null, "sex": null });
   const [filterOpen, setFilterOpen] = useState(null);
 
@@ -124,7 +127,9 @@ const Ranking = () => {
               ))}
             {!runners?.length && (
               <tr>
-                <td colSpan="6">Aucun coureur n'a franchit la ligne d'arrivée</td>
+                <td colSpan="6">
+                  {started ? NO_RUNNER_STARTED : NO_RUNNER_NO_STARTED}
+                </td>
               </tr>
             )}
           </tbody>

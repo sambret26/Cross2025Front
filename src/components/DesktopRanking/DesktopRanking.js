@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState, useEffect, useRef, useCallback } from 'react';
+import { NO_RUNNER_NO_STARTED, NO_RUNNER_STARTED } from '../../Constants/constants';
 import { GlobalContext } from '../../App';
 import Loader from '../Loader/Loader';
 import './DesktopRanking.css';
@@ -16,7 +17,7 @@ const SCROLL_CONFIG = {
 const DesktopRanking = () => {
 
   const navigate = useNavigate();
-  const { runners, categories } = useContext(GlobalContext);
+  const { runners, categories, started } = useContext(GlobalContext);
   const [filterCategory, setFilterCategory] = useState(categories ? categories[0] : { "label": "Général", "category": null, "sex": null });
   const table1Ref = useRef(null);
   const [loading, setLoading] = useState(true);
@@ -25,7 +26,6 @@ const DesktopRanking = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setFiveSecondsPasts(true);
-      console.log("Five seconds pasts");
     }, 5000);
     return () => clearTimeout(timer);
   }, []);
@@ -206,7 +206,9 @@ const DesktopRanking = () => {
                   ))}
                 {!runners?.length && (
                   <tr>
-                    <td colSpan="6">Aucun coureur n'a franchit la ligne d'arrivée</td>
+                    <td colSpan="6">
+                      {started ? NO_RUNNER_STARTED : NO_RUNNER_NO_STARTED}
+                    </td>
                   </tr>
                 )}
               </tbody>
@@ -248,7 +250,9 @@ const DesktopRanking = () => {
                   ))}
                 {!runners?.length && (
                   <tr>
-                    <td colSpan="6">Aucun coureur n'a franchit la ligne d'arrivée</td>
+                    <td colSpan="6">
+                      {started ? NO_RUNNER_STARTED : NO_RUNNER_NO_STARTED}
+                    </td>
                   </tr>
                 )}
               </tbody>
