@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 import InputModal from '../Modal/InputModal';
 import CommentModal from '../Modal/CommentModal';
 
+// Import constants
+import { YEAR } from '../../Constants/constants';
+
 // Import images
 import logo from "../../images/logo.png"
 
@@ -72,7 +75,7 @@ const Home = () => {
     <div className="home-page">
       <div className="titles-container">
         <h1 className="event-title">Cross Oriol</h1>
-        <h1 className="event-title">15 août 2025</h1>
+        <h1 className="event-title">15 août {YEAR}</h1>
       </div>
       <div className="content-container">
         <div className="button-container">

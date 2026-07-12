@@ -29,6 +29,25 @@ const Ranking = () => {
     setFilterOpen(!filterOpen);
   }
 
+    const medalForGeneralRanking = (ranking) => {
+      if (ranking === 1) return "🥇";
+      if (ranking === 2) return "🥈";
+      if (ranking === 3) return "🥉";
+      return ranking;
+    };
+
+    const medalForSexRanking = (ranking) => {
+      if (ranking === 1) return "🥇";
+      if (ranking === 2) return "🥈";
+      if (ranking === 3) return "🥉";
+      return "(" + ranking + ")";
+    };
+
+    const medalForCatRanking = (ranking) => {
+      if (ranking === 1) return "🥇";
+      return "(" + ranking + ")";
+    };
+
   if (loading) {
     return (
       <Loader />
@@ -115,13 +134,13 @@ const Ranking = () => {
                   className={filteredIndex % 2 === 0 ? 'even-row' : 'odd-row'}
                   onClick={() => handleRunnerClick(runner.bib_number)}
                 >
-                  {!filterCategory.sex && <td>{runner.ranking}</td>}
-                  {filterCategory.sex && <td>{filteredIndex + 1}</td>}
+                  {!filterCategory.sex && <td>{medalForGeneralRanking(runner.ranking)}</td>}
+                  {filterCategory.sex && <td>{medalForGeneralRanking(filteredIndex + 1)}</td>}
                   <td>{runner.bib_number}</td>
                   <td>{runner.name}</td>
-                  {!filterCategory.sex && <td>{runner.sex} ({runner.sex_ranking})</td>}
-                  {filterCategory.sex && <td>{runner.ranking}</td>}
-                  {!filterCategory.category && <td>{runner.category} ({runner.category_ranking})</td>}
+                  {!filterCategory.sex && <td>{runner.sex} {medalForSexRanking(runner.sex_ranking)}</td>}
+                  {filterCategory.sex && <td>{medalForGeneralRanking(runner.ranking)}</td>}
+                  {!filterCategory.category && <td>{runner.category} {medalForCatRanking(runner.category_ranking)}</td>}
                   <td>{runner.time}</td>
                 </tr>
               ))}

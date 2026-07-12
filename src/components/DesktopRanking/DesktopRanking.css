@@ -41,7 +41,6 @@
   border-radius: 4px;
 }
 
-.desktop-rankings-table-1-header,
 .desktop-rankings-table-1,
 .desktop-rankings-table-2 {
   width: 100%;
@@ -61,11 +60,12 @@
   border-radius: 0 0 8px 8px;
 }
 
+.desktop-rankings-table-1,
 .desktop-rankings-table-2 {
   border-radius: 8px;
 }
 
-.desktop-rankings-table-1-header th,
+.desktop-rankings-table-1 th,
 .desktop-rankings-table-2 th,
 .desktop-rankings-table-1 td,
 .desktop-rankings-table-2 td {
@@ -73,7 +73,7 @@
   text-align: center;
 }
 
-.desktop-rankings-table-1-header th,
+.desktop-rankings-table-1 th,
 .desktop-rankings-table-2 th {
   background-color: #333;
   color: #00ff88;
@@ -87,6 +87,20 @@
   color: white;
 }
 
-.table-wrapper::-webkit-scrollbar {
+.table-wrapper::-webkit-scrollbar,
+.scrollable-body::-webkit-scrollbar {
   display: none;
+}
+
+.scrollable-body {
+  display: block;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.desktop-rankings-table-1 thead,
+.desktop-rankings-table-1 tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }

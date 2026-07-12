@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useContext, useState, useEffect, useRef, useCallback } from 'react';
-import { NO_RUNNER_NO_STARTED, NO_RUNNER_STARTED } from '../../Constants/constants';
+import { NO_RUNNER_NO_STARTED, NO_RUNNER_STARTED, YEAR } from '../../Constants/constants';
 import { GlobalContext } from '../../App';
 import Loader from '../Loader/Loader';
 import './DesktopRanking.css';
@@ -22,6 +22,7 @@ const DesktopRanking = () => {
   const table1Ref = useRef(null);
   const [loading, setLoading] = useState(true);
   const [fiveSecondsPasts, setFiveSecondsPasts] = useState(false);
+  const runnersRef = useRef(runners);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -30,14 +31,33 @@ const DesktopRanking = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    runnersRef.current = runners;
+  }, [runners]);
+
   const updateFilterCategory = useCallback(() => {
     setFilterCategory(currentCategory => {
-      const currentIndex = categories.findIndex(cat =>
+      let currentIndex = categories.findIndex(cat =>
         cat.category === currentCategory?.category &&
         cat.sex === currentCategory?.sex
       );
-      const nextIndex = (currentIndex + 1) % categories.length;
-      return categories[nextIndex];
+
+      if (currentIndex === -1) {
+        currentIndex = 0;
+      }
+
+      let nextIndex = currentIndex;
+      for (let i = 0; i < categories.length; i++) {
+        nextIndex = (nextIndex + 1) % categories.length;
+        let category = categories[nextIndex]
+        if (runnersRef.current.some(runner =>
+         runner.category === category.category &&
+         runner.sex === category.sex &&
+         runner.finish)) {
+          return categories[nextIndex];
+        }
+      }
+    return currentCategory;
     });
   }, [categories]);
 
@@ -52,6 +72,25 @@ const DesktopRanking = () => {
 
     return () => clearInterval(interval);
   }, [categories, updateFilterCategory]);
+
+  const medalForGeneralRanking = (ranking) => {
+    if (ranking === 1) return "🥇";
+    if (ranking === 2) return "🥈";
+    if (ranking === 3) return "🥉";
+    return ranking;
+  };
+
+  const medalForSexRanking = (ranking) => {
+    if (ranking === 1) return "🥇";
+    if (ranking === 2) return "🥈";
+    if (ranking === 3) return "🥉";
+    return "(" + ranking + ")";
+  };
+
+  const medalForCatRanking = (ranking) => {
+    if (ranking === 1) return "🥇";
+    return "(" + ranking + ")";
+  };
 
   // Custom hook for managing auto-scroll functionality
   const useAutoScroll = (tableRef) => {
@@ -108,7 +147,9 @@ const DesktopRanking = () => {
             animationRef.current = requestAnimationFrame(step);
           } else {
             isScrollingDownRef.current = false;
-            scrollFunctionsRef.current.resetScroll(table);
+            setTimeout(() => {
+                scrollFunctionsRef.current.resetScroll(table);
+            }, SCROLL_CONFIG.PAUSE_DURATION)
           }
         };
 
@@ -168,12 +209,12 @@ const DesktopRanking = () => {
   return (
     <div>
       <header className="desktop-ranking-header">
-        <h1>Classements 15 Août 2025</h1>
+        <h1>Classements 15 Août {YEAR}</h1>
       </header>
       <main className="desktop-rankings-list">
         <div className="table-container">
           <h2 className="table-title">Classement général</h2>
-          <table className="desktop-rankings-table-1-header">
+          <table className="desktop-rankings-table-1">
             <thead>
               <tr>
                 <th>Général</th>
@@ -184,10 +225,7 @@ const DesktopRanking = () => {
                 <th>Temps</th>
               </tr>
             </thead>
-          </table>
-          <div className="table-wrapper" ref={table1Ref}>
-            <table className="desktop-rankings-table-1">
-              <tbody>
+              <tbody ref={table1Ref} className="scrollable-body">
                 {runners
                   ?.filter(runner => runner.finish)
                   .map((runner, filteredIndex) => (
@@ -196,11 +234,11 @@ const DesktopRanking = () => {
                       className={filteredIndex % 2 === 0 ? 'even-row' : 'odd-row'}
                       onClick={() => handleRunnerClick(runner.bib_number)}
                     >
-                      <td>{runner.ranking}</td>
+                      <td>{medalForGeneralRanking(runner.ranking)}</td>
                       <td>{runner.bib_number}</td>
                       <td>{runner.name}</td>
-                      <td>{runner.sex} ({runner.sex_ranking})</td>
-                      <td>{runner.category} ({runner.category_ranking})</td>
+                      <td>{runner.sex} {medalForSexRanking(runner.sex_ranking)}</td>
+                      <td>{runner.category} {medalForCatRanking(runner.category_ranking)}</td>
                       <td>{runner.time}</td>
                     </tr>
                   ))}
@@ -213,7 +251,6 @@ const DesktopRanking = () => {
                 )}
               </tbody>
             </table>
-          </div>
         </div>
         <div className="table-container">
           <h2 className="table-title">Classement {filterCategory?.label}</h2>
@@ -241,10 +278,10 @@ const DesktopRanking = () => {
                       className={filteredIndex % 2 === 0 ? 'even-row' : 'odd-row'}
                       onClick={() => handleRunnerClick(runner.bib_number)}
                     >
-                      <td>{runner.category_ranking}</td>
+                      <td>{medalForGeneralRanking(runner.category_ranking)}</td>
                       <td>{runner.bib_number}</td>
                       <td>{runner.name}</td>
-                      <td>{runner.ranking}</td>
+                      <td>{medalForGeneralRanking(runner.ranking)}</td>
                       <td>{runner.time}</td>
                     </tr>
                   ))}

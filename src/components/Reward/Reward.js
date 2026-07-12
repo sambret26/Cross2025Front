@@ -80,7 +80,7 @@ const Reward = () => {
             {rewards
               ?.map((reward, filteredIndex) => (
                 <tr
-                  key={reward.id}
+                  key={reward.bib_number}
                   className={filteredIndex % 2 === 0 ? 'even-row' : 'odd-row'}
                   onClick={() => handleRunnerClick(reward.bib_number)}
                 >
