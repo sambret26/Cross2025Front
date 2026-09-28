@@ -15,42 +15,25 @@ const Runner = () => {
   const { number } = useParams();
   const [searchParams] = useSearchParams();
   const { runners, loading } = useContext(GlobalContext);
-  const fromRanking = searchParams.get('fromRanking') === 'true';
-  const fromDesktopRanking = searchParams.get('fromDesktopRanking') === 'true';
-  const fromRegister = searchParams.get('fromRegister') === 'true';
-  const fromRewards = searchParams.get('fromRewards') === 'true';
-  const fromClick = fromRanking || fromDesktopRanking || fromRegister || fromRewards;
+  const fromUrl = searchParams.get('from');
   const navigate = useNavigate();
 
   const runner = runners.find(runner => runner.bib_number === parseInt(number));
 
   const getCategorieLabel = (category) => {
-    switch (category) {
-      case 'J':
-        return 'Jeune';
-      case 'S':
-        return 'Senior';
-      default:
-        return category;
-    }
+    if (category === 'J') return 'Jeune';
+    if (category === 'S') return 'Senior';
+    return category;
   }
 
-  const getSexLabel = (sex) => {
-    switch (sex) {
-      case 'M':
-        return 'Masculin';
-      case 'F':
-        return 'Feminin';
-      default:
-        return sex;
-    }
+  const getRaceLabel = (label) => {
+    if (label === '10kms') return '10km';
+    if (label === '5kms') return '5km';
+    return label;
   }
 
   const getReturnUrl = () => {
-    if (fromRanking) return '/ranking';
-    if (fromDesktopRanking) return '/desktop-ranking';
-    if (fromRegister) return '/register';
-    if (fromRewards) return '/rewards';
+    if (fromUrl != null) return fromUrl;
     return '/';
   }
 
@@ -79,7 +62,7 @@ const Runner = () => {
         >
           <FiArrowLeft className="return-icon" />
         </button>
-        <h2>{fromClick ? 'Profil' : 'Mon profil'}</h2>
+        <h2>{(fromUrl != null) ? 'Profil' : 'Mon profil'}</h2>
       </header>
       <div className="result-grid">
         <div className="result-line">
@@ -95,16 +78,16 @@ const Runner = () => {
 
         <div className="result-line">
           <div className="result-item">
-            <span className="label">Sexe :</span>
-            <span className="value">{getSexLabel(runner.sex)}</span>
+            <span className="label">Course :</span>
+            <span className="value">{getRaceLabel(runner.race_label)}</span>
           </div>
           <div className="result-item">
             <span className="label">Catégorie :</span>
-            <span className="value">{getCategorieLabel(runner.category)}</span>
+            <span className="value">{getCategorieLabel(runner.category)} {runner.sex}</span>
           </div>
         </div>
       </div>
-      <h2>{fromClick ? 'Performance' : 'Ma performance'}</h2>
+      <h2>{(fromUrl != null) ? 'Performance' : 'Ma performance'}</h2>
       <div className="result-grid-last">
         <div className="result-line">
           <div className="result-item">

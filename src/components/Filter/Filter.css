@@ -1,5 +1,6 @@
 /* Conteneur du filtre */
-.filter-container {
+.status-filter-container,
+.category-filter-container {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
@@ -11,18 +12,38 @@
   margin-top: -1rem;
 }
 
+.status-filter-container {
+  display: flex;
+  gap: 2rem;
+}
+
+.status-filter-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.status-filter-button {
+  background-color: inherit;
+  color: white;
+  padding: 1rem 2rem;
+  width: 100%;
+  border: none;
+  text-align: left;
+}
+
 .gender-filter-container {
   display: flex;
   padding: 2rem 0rem;
 }
 
-.filter-column {
+.category-filter-column {
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-.filter-button {
+.category-filter-button {
   background-color: inherit;
   color: white;
   padding: 1rem 2rem;
@@ -33,4 +54,9 @@
 h3 {
   text-align: center;
   color: white;
+}
+
+.filter-button-active {
+  color: #28a745;
+  font-weight: bold;
 }

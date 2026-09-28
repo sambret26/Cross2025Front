@@ -1,5 +1,5 @@
 // Import libraries
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { GlobalContext } from '../../App';
 import { FiRefreshCw, FiArrowLeft } from 'react-icons/fi';
@@ -18,11 +18,14 @@ const Ranking = () => {
 
   const navigate = useNavigate();
   const { runners, started, loading, refreshData } = useContext(GlobalContext);
+  const { race } = useParams();
   const [filterCategory, setFilterCategory] = useState({ "label": "Général", "category": null, "sex": null });
   const [filterOpen, setFilterOpen] = useState(null);
 
+  const filteredRunners = runners.filter(runner => runner.race_label === race);
+
   const handleRunnerClick = (bib_number) => {
-    navigate(`/runner/${bib_number}?fromRanking=true`);
+    navigate(`/runner/${bib_number}?from=/ranking/${race}`);
   }
 
   const changeFilterOpen = () => {
@@ -122,7 +125,7 @@ const Ranking = () => {
             </tr>
           </thead>
           <tbody>
-            {runners
+            {filteredRunners
               ?.filter(runner => {
                 if (!runner.finish) return false;
                 if (filterCategory.category && runner.category !== filterCategory.category) return false;
