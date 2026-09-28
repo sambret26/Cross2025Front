@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useContext, useState, useEffect, useRef, useCallback } from 'react';
 import { NO_RUNNER_NO_STARTED, NO_RUNNER_STARTED, YEAR } from '../../Constants/constants';
 import { GlobalContext } from '../../App';
@@ -18,11 +18,13 @@ const DesktopRanking = () => {
 
   const navigate = useNavigate();
   const { runners, categories, started } = useContext(GlobalContext);
+  const { race } = useParams();
   const [filterCategory, setFilterCategory] = useState(categories ? categories[0] : { "label": "Général", "category": null, "sex": null });
   const table1Ref = useRef(null);
   const [loading, setLoading] = useState(true);
   const [fiveSecondsPasts, setFiveSecondsPasts] = useState(false);
-  const runnersRef = useRef(runners);
+  const filteredRunners = runners.filter(runner => runner.race_label === race);
+  const runnersRef = useRef(filteredRunners);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -32,8 +34,14 @@ const DesktopRanking = () => {
   }, []);
 
   useEffect(() => {
-    runnersRef.current = runners;
-  }, [runners]);
+    runnersRef.current = filteredRunners;
+  }, [filteredRunners]);
+
+  const raceLabelToDisplay = () => {
+    if (race === "10kms") return "10 km";
+    if (race === "5kms") return "5 km";
+    return race;
+  }
 
   const updateFilterCategory = useCallback(() => {
     setFilterCategory(currentCategory => {
@@ -197,7 +205,7 @@ const DesktopRanking = () => {
   }, [fiveSecondsPasts, startAutoScroll, cleanup]);
 
   const handleRunnerClick = (bib_number) => {
-    navigate(`/runner/${bib_number}?fromDesktopRanking=true`);
+    navigate(`/runner/${bib_number}?from=/desktop-ranking/${race}`);
   }
 
   if (loading) {
@@ -209,11 +217,11 @@ const DesktopRanking = () => {
   return (
     <div>
       <header className="desktop-ranking-header">
-        <h1>Classements 15 Août {YEAR}</h1>
+        <h1>Classements {raceLabelToDisplay()} 15 Août {YEAR}</h1>
       </header>
       <main className="desktop-rankings-list">
         <div className="table-container">
-          <h2 className="table-title">Classement général</h2>
+          <h2 className="table-title">Classement général {raceLabelToDisplay()}</h2>
           <table className="desktop-rankings-table-1">
             <thead>
               <tr>
@@ -226,7 +234,7 @@ const DesktopRanking = () => {
               </tr>
             </thead>
               <tbody ref={table1Ref} className="scrollable-body">
-                {runners
+                {filteredRunners
                   ?.filter(runner => runner.finish)
                   .map((runner, filteredIndex) => (
                     <tr
@@ -242,7 +250,7 @@ const DesktopRanking = () => {
                       <td>{runner.time}</td>
                     </tr>
                   ))}
-                {!runners?.length && (
+                {!filteredRunners?.length && (
                   <tr>
                     <td colSpan="6">
                       {started ? NO_RUNNER_STARTED : NO_RUNNER_NO_STARTED}
@@ -266,7 +274,7 @@ const DesktopRanking = () => {
                 </tr>
               </thead>
               <tbody>
-                {runners
+                {filteredRunners
                   ?.filter(runner => {
                     if (!runner.finish) return false;
                     if (filterCategory.category && runner.category !== filterCategory.category) return false;
@@ -285,7 +293,7 @@ const DesktopRanking = () => {
                       <td>{runner.time}</td>
                     </tr>
                   ))}
-                {!runners?.length && (
+                {!filteredRunners?.length && (
                   <tr>
                     <td colSpan="6">
                       {started ? NO_RUNNER_STARTED : NO_RUNNER_NO_STARTED}
