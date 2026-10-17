@@ -79,8 +79,11 @@ const Home = () => {
       </div>
       <div className="content-container">
         <div className="button-container">
-          <Link to="/ranking">
-            <button className="nav-button">Classement général</button>
+          <Link to="/ranking/10kms">
+            <button className="nav-button">Classement général 10 km</button>
+          </Link>
+          <Link to="/ranking/5kms">
+            <button className="nav-button">Classement général 5 km</button>
           </Link>
           <button className="nav-button" onClick={handleOpenInputModal}>
             Mon résultat

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 // Import styles
 import './Filter.css';
 
-const CategoryFilter = ({ setCategory, setFilterOpen }) => {
+const CategoryFilter = ({ currentCategory, setCategory, setFilterOpen }) => {
 
   const general_categories = [
     { "label": "Général", "category": null, "sex": null },
@@ -23,19 +23,34 @@ const CategoryFilter = ({ setCategory, setFilterOpen }) => {
     setFilterOpen(false);
   }
 
+  const isActiveCategory = (category) => {
+    return (
+      currentCategory?.label === category.label &&
+      currentCategory?.sex === category.sex
+    );
+  };
+
   return (
-    <div className="filter-container">
+    <div className="category-filter-container">
       <button
-        className="filter-button"
+        className={`category-filter-button ${
+          isActiveCategory(general_categories[0])
+          ? "filter-button-active"
+          : ""
+        }`}
         onClick={() => handleCategorieChange(general_categories[0])}
       >
         {general_categories[0].label}
       </button>
       <div className="gender-filter-container">
-        <div className="filter-column">
+        <div className="category-filter-column">
           <h3>♀</h3>
           <button
-            className="filter-button"
+            className={`category-filter-button ${
+              isActiveCategory(general_categories[1])
+              ? "filter-button-active"
+              : ""
+            }`}
             onClick={() => handleCategorieChange(general_categories[1])}
           >
             {general_categories[1].label}
@@ -43,17 +58,25 @@ const CategoryFilter = ({ setCategory, setFilterOpen }) => {
           {women_categories.map((category) => (
             <button
               key={`women-${category.label}`}
-              className="filter-button"
+              className={`category-filter-button ${
+                isActiveCategory(category)
+                ? "filter-button-active"
+                : ""
+              }`}
               onClick={() => handleCategorieChange(category)}
             >
               {category.label}
             </button>
           ))}
         </div>
-        <div className="filter-column">
+        <div className="category-filter-column">
           <h3>♂</h3>
           <button
-            className="filter-button"
+            className={`category-filter-button ${
+              isActiveCategory(general_categories[2])
+              ? "filter-button-active"
+              : ""
+            }`}
             onClick={() => handleCategorieChange(general_categories[2])}
           >
             {general_categories[2].label}
@@ -61,7 +84,11 @@ const CategoryFilter = ({ setCategory, setFilterOpen }) => {
           {men_categories.map((category) => (
             <button
               key={`men-${category.label}`}
-              className="filter-button"
+              className={`category-filter-button ${
+                isActiveCategory(category)
+                ? "filter-button-active"
+                : ""
+              }`}
               onClick={() => handleCategorieChange(category)}
             >
               {category.label}
@@ -74,6 +101,11 @@ const CategoryFilter = ({ setCategory, setFilterOpen }) => {
 };
 
 CategoryFilter.propTypes = {
+  currentCategory: PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    category: PropTypes.any,
+    sex: PropTypes.string
+  }),
   setCategory: PropTypes.func.isRequired,
   setFilterOpen: PropTypes.func.isRequired
 }

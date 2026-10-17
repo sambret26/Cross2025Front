@@ -18,11 +18,12 @@ const Register = () => {
   const { runners, loading } = useContext(GlobalContext);
   const [filterCategory, setFilterCategory] = useState({ "label": "Général", "category": null, "sex": null });
   const [categoryFilterOpen, setCategoryFilterOpen] = useState(null);
-  const [filterStatus, setFilterStatus] = useState({ "label": "Tous", "status": null });
+  const [filterStatus, setFilterStatus] = useState(null);
+  const [filterRace, setFilterRace] = useState(null);
   const [statusFilterOpen, setStatusFilterOpen] = useState(null);
 
   const handleRunnerClick = (bib_number) => {
-    navigate(`/runner/${bib_number}?fromRegister=true`);
+    navigate(`/runner/${bib_number}?from=/register`);
   }
 
   const changeCategoryFilterOpen = () => {
@@ -39,7 +40,8 @@ const Register = () => {
     setStatusFilterOpen(!statusFilterOpen);
   }
 
-  const isValid = (status, runner) => {
+  const isValid = (status, race, runner) => {
+    if (race !== null && race !== runner.race_label) return false;
     if (!status) return true;
     if (status === 2 && runner.finish) return true;
     if (status === -1 && runner.out) return true;
@@ -67,18 +69,22 @@ const Register = () => {
     <div>
       {statusFilterOpen && (
         <StatusFilter
+          currentRace={filterRace}
+          currentStatus={filterStatus}
+          setRace={setFilterRace}
           setStatus={setFilterStatus}
           setFilterOpen={setStatusFilterOpen}
         />
       )}
       {categoryFilterOpen && (
         <CategoryFilter
+          currentCategory={filterCategory}
           setCategory={setFilterCategory}
           setFilterOpen={setCategoryFilterOpen}
         />
       )}
       <button className="status-filter-opener" onClick={changeStatusFilterOpen}>
-        {filterStatus.label}
+        Filtres
       </button>
       <button className="category-filter-opener" onClick={changeCategoryFilterOpen}>
         {filterCategory.label}
@@ -101,7 +107,7 @@ const Register = () => {
               ?.filter(runner => {
                 if (filterCategory.category && runner.category !== filterCategory.category) return false;
                 if (filterCategory.sex && runner.sex !== filterCategory.sex) return false;
-                return isValid(filterStatus.status, runner);
+                return isValid(filterStatus, filterRace, runner);
               })
               .sort((a, b) => {
                 return a.bib_number - b.bib_number;

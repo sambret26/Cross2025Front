@@ -24,7 +24,7 @@ export const GlobalContext = createContext();
 function App() {
   const [categories, setCategories] = useState([]);
   const [runners, setRunners] = useState([]);
-  const [started, setStarted] = useState([]);
+  const [started, setStarted] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const fetchStarted = useCallback(async () => {
@@ -89,11 +89,11 @@ function App() {
     return (
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/ranking" element={<Ranking />} />
+        <Route path="/ranking/:race" element={<Ranking />} />
         <Route path="/register" element={<Register />} />
         <Route path="/runner/:number" element={<Runner />} />
         <Route path="/rewards" element={<Reward />} />
-        <Route path="/desktop-ranking" element={<DesktopRanking />} />
+        <Route path="/desktop-ranking/:race" element={<DesktopRanking />} />
       </Routes>
     );
   }
